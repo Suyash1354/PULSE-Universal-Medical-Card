@@ -1,0 +1,219 @@
+@font-face {
+  font-family: "Satoshi-Medium";
+  src: url(/public/Satoshi/Satoshi-Medium.otf);
+}
+@font-face {
+  font-family: "Satoshi-Black";
+  src: url(/public/Satoshi/Satoshi-Black.otf);
+}
+@font-face {
+  font-family: "Panchang";
+  src: url("/fonts/Brand/Panchang-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+    font-family: "Tanker-Regular";
+    src: url("/fonts/Tanker/Tanker-Regular.otf");
+}
+
+@font-face {
+  font-family: "Switzer-Medium";
+  src: url("/fonts/Switzer_Complete/Switzer-Medium.otf") format("opentype");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Switzer-Regular";
+  src: url("/fonts/Switzer_Complete/Switzer-Regular.otf") format("opentype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Supreme-Regular";
+  src: url("/fonts/Supreme_Complete/Supreme-Regular.otf") format("opentype");
+  font-weight: 400;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --cream: #f5f0e8;
+  --dark: #111111;
+  --mid: #555555;
+  --dot-color: #c8bfb0;
+}
+
+html, body { height: 100%; }
+
+.home-root {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--cream);
+  overflow: hidden;
+}
+
+/* Dot Grid */
+.dot-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, var(--dot-color) 1.2px, transparent 1.2px);
+  background-size: 28px 28px;
+}
+
+/* ── NAVBAR — slim pill ── */
+.navbar {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 7px 8px 7px 22px;
+  background: var(--dark);
+  border-radius: 100px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.14);
+  opacity: 0;
+}
+
+.brand-name {
+  color: #fff;
+  font-family: "Panchang", sans-serif;
+  font-size: 0.97rem;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+/* Get Started — white bg, dark text */
+.nav-cta {
+  background: #ffffff;
+  color: var(--dark);
+  border: none;
+  outline: none;
+  border-radius: 100px;
+  padding: 8px 22px;
+  font-family: "Switzer-Medium", sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.nav-cta:hover { background: #e8e0d4; transform: scale(1.03); }
+.nav-cta:active { transform: scale(0.97); }
+
+/* ── HERO — title dead center ── */
+.hero {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Single-line Tanker title */
+.hero-title {
+  font-family: "Tanker-Regular";
+  font-size: clamp(5rem, 14vw, 13rem);
+  line-height: 1;
+  color: var(--dark);
+  white-space: nowrap;
+}
+
+/* Each letter starts invisible — GSAP reveals them */
+.letter {
+  display: inline-block;
+  opacity: 0;
+}
+
+/* Subtext — Supreme Regular */
+.hero-sub {
+  margin-top: 26px;
+  font-family: "Supreme-Regular", sans-serif;
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  color: var(--mid);
+  line-height: 1.7;
+  opacity: 0;
+}
+.hero-sub strong {
+  color: var(--dark);
+}
+
+/* ── 3 ROLE BUTTONS — pinned to bottom ── */
+.role-buttons {
+  position: absolute;
+  bottom: 44px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 2;
+}
+
+.role-btn {
+  background: var(--dark);
+  color: #fff;
+  border: none;
+  outline: none;
+  border-radius: 100px;
+  padding: 13px 32px;
+  font-family: "Switzer-Regular", sans-serif;
+  font-size: 0.88rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  opacity: 0;
+  transition: background 0.2s, transform 0.18s, box-shadow 0.18s;
+}
+.role-btn:hover {
+  background: #2a2a2a;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.18);
+}
+.role-btn:active { transform: translateY(0); }
+
+/* Scroll Caret — just above role buttons */
+.scroll-caret {
+  position: absolute;
+  bottom: 112px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  opacity: 0;
+}
+
+@media (max-width: 600px) {
+  .hero-title { font-size: clamp(3.5rem, 18vw, 5.5rem); }
+  .role-buttons { gap: 8px; bottom: 32px; }
+  .role-btn { padding: 11px 22px; font-size: 0.8rem; }
+  .navbar { gap: 20px; padding: 6px 6px 6px 16px; }
+  .scroll-caret { bottom: 96px; }
+}
+
+/* ── Hover floating icons ── */
+.hover-icon {
+  position: fixed;
+  pointer-events: none;
+  z-index: 50;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+.hover-icon svg {
+  width: 100%;
+  height: 100%;
+}
