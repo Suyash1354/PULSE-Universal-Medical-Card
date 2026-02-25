@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
-import "./HomePage.css";
+import "../css/HomePage.css";
 
 const LETTERS = "MediCard".split("");
 

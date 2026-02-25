@@ -1,0 +1,269 @@
+/* ══════════════════════════════════════
+   QR SCANNER MODAL
+══════════════════════════════════════ */
+
+.qrs-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(8, 8, 8, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.qrs-modal {
+  background: var(--cream);
+  border-radius: 22px;
+  width: 100%;
+  max-width: 400px;
+  padding: 24px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Header ── */
+.qrs-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.qrs-title {
+  font-family: "Switzer-Medium", sans-serif;
+  font-size: 1rem;
+  color: var(--dark);
+  margin-bottom: 3px;
+}
+
+.qrs-subtitle {
+  font-family: "Supreme-Regular", sans-serif;
+  font-size: 0.78rem;
+  color: var(--mid);
+}
+
+.qrs-close {
+  background: none;
+  border: none;
+  font-size: 0.95rem;
+  color: var(--mid);
+  cursor: pointer;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+.qrs-close:hover { background: #e0d8cc; color: var(--dark); }
+
+/* ── Camera selector ── */
+.qrs-cam-select {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.qrs-cam-btn {
+  background: var(--light);
+  color: var(--mid);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-family: "Supreme-Regular", sans-serif;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.qrs-cam-btn.active {
+  background: var(--dark);
+  color: #fff;
+  border-color: var(--dark);
+}
+
+.qrs-cam-btn:hover:not(.active) {
+  background: #ddd8cf;
+  color: var(--dark);
+}
+
+/* ── Viewport ── */
+.qrs-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #111;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* html5-qrcode injects its own video element here */
+.qrs-region {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Override html5-qrcode default styles */
+.qrs-region > * {
+  border-radius: 0 !important;
+}
+
+.qrs-region video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 0 !important;
+}
+
+/* Kill the default html5-qrcode border/shading */
+#qr-region__scan_region > img,
+#qr-region__dashboard,
+#qr-region__header_message {
+  display: none !important;
+}
+
+/* ── State overlays ── */
+.qrs-state-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: rgba(10,10,10,0.72);
+  color: #fff;
+  font-family: "Switzer-Regular", sans-serif;
+  font-size: 0.9rem;
+  border-radius: 16px;
+  z-index: 10;
+  text-align: center;
+  padding: 20px;
+}
+
+.qrs-state-overlay.success { background: rgba(26,127,90,0.88); }
+.qrs-state-overlay.error   { background: rgba(192,57,43,0.88);  }
+
+/* Spinner */
+.qrs-spinner {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.2);
+  border-top-color: #fff;
+  animation: qrs-spin 0.8s linear infinite;
+}
+@keyframes qrs-spin { to { transform: rotate(360deg); } }
+
+/* Success ring */
+.qrs-success-ring {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: 2px solid rgba(255,255,255,0.5);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+  animation: qrs-pop 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes qrs-pop {
+  from { transform: scale(0.4); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+/* Error icon */
+.qrs-error-icon {
+  font-size: 2rem;
+  display: block;
+}
+
+/* Retry button */
+.qrs-retry-btn {
+  margin-top: 4px;
+  background: rgba(255,255,255,0.22);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  border-radius: 100px;
+  padding: 8px 22px;
+  font-family: "Switzer-Regular", sans-serif;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.qrs-retry-btn:hover { background: rgba(255,255,255,0.35); }
+
+/* ── Scanning frame corners + sweep line ── */
+.qrs-frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.qrs-corner {
+  position: absolute;
+  width: 22px; height: 22px;
+  border-color: #fff;
+  border-style: solid;
+  opacity: 0.85;
+}
+
+/* position corners at 50% centre of viewport */
+.qrs-corner.tl {
+  top: calc(50% - 110px); left: calc(50% - 110px);
+  border-width: 3px 0 0 3px;
+  border-radius: 4px 0 0 0;
+}
+.qrs-corner.tr {
+  top: calc(50% - 110px); right: calc(50% - 110px);
+  border-width: 3px 3px 0 0;
+  border-radius: 0 4px 0 0;
+}
+.qrs-corner.bl {
+  bottom: calc(50% - 110px); left: calc(50% - 110px);
+  border-width: 0 0 3px 3px;
+  border-radius: 0 0 0 4px;
+}
+.qrs-corner.br {
+  bottom: calc(50% - 110px); right: calc(50% - 110px);
+  border-width: 0 3px 3px 0;
+  border-radius: 0 0 4px 0;
+}
+
+/* Laser sweep line */
+.qrs-scan-line {
+  position: absolute;
+  left: calc(50% - 110px);
+  top: calc(50% - 110px);
+  width: 220px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #4ecca3, transparent);
+  box-shadow: 0 0 8px rgba(78,204,163,0.8);
+  animation: qrs-sweep 2s ease-in-out infinite;
+}
+@keyframes qrs-sweep {
+  0%   { transform: translateY(0);    opacity: 1; }
+  50%  { transform: translateY(218px);opacity: 1; }
+  100% { transform: translateY(0);    opacity: 1; }
+}
+
+/* ── Bottom hint ── */
+.qrs-hint {
+  font-family: "Supreme-Regular", sans-serif;
+  font-size: 0.76rem;
+  color: var(--mid);
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .qrs-modal { padding: 18px 16px; }
+  .qrs-corner.tl { top: calc(50% - 90px);    left: calc(50% - 90px);  }
+  .qrs-corner.tr { top: calc(50% - 90px);    right: calc(50% - 90px); }
+  .qrs-corner.bl { bottom: calc(50% - 90px); left: calc(50% - 90px);  }
+  .qrs-corner.br { bottom: calc(50% - 90px); right: calc(50% - 90px); }
+  .qrs-scan-line { left: calc(50% - 90px); width: 180px; }
+}
